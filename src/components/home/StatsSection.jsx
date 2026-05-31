@@ -30,13 +30,13 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <section className="relative overflow-hidden bg-black py-24 lg:py-32">
+    <section className="relative overflow-hidden bg-black py-15 md:py-24 lg:py-32">
       {/* Globe */}
       <div
-        className="absolute inset-0 -top-110 bg-top bg-no-repeat "
+        className="absolute inset-0 -top-25 bg-size-[90%]  sm:-top-80 md:-top-90  md:bg-size-[90%] lg:-top-110 bg-top bg-no-repeat sm:bg-size-[100%] lg:bg-size-[70%]"
         style={{
           backgroundImage: "url('/images/globe.png')",
-          backgroundSize: "70%",
+         
         }}
       />
 
@@ -50,7 +50,7 @@ export default function StatsSection() {
         {/* Heading */}
         <div className="mb-8 flex justify-center">
           <div className="rounded-lg py-5 ">
-            <h2 className="text-center text-2xl  text-white/70 leading-tight">
+            <h2 className="text-center text-xl md:text-2xl  text-white/70 leading-tight">
               Assisting over <span className="text-white/90">15,000 job seekers</span>
               <br />
               find their dream positions.
@@ -59,7 +59,7 @@ export default function StatsSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 lg:grid-cols-4 z-80">
           {stats.map((item, index) => {
             const Icon = item.icon;
 
