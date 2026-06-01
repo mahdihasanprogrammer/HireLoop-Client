@@ -32,7 +32,7 @@ export default function Navbar() {
         <nav className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex size-11 items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-purple-500 shadow-lg">
+            <div className="flex size-11 items-center justify-center rounded-xl bg-linear-to-r from-violet-600 to-purple-500 shadow-lg">
               <RiBriefcase4Fill className="text-2xl text-white" />
             </div>
 
@@ -61,7 +61,7 @@ export default function Navbar() {
                   {link.name}
 
                   {isActive && (
-                    <span className="absolute -bottom-2 left-0 h-[2px] w-full rounded-full bg-violet-500" />
+                    <span className="absolute -bottom-2 left-0 h-0.5 w-full rounded-full bg-violet-500" />
                   )}
                 </Link>
               );
@@ -70,7 +70,7 @@ export default function Navbar() {
             <div className="h-5 w-px bg-white/10" />
 
             <Link
-              href="/login"
+              href="/signin"
               className={`text-sm font-medium transition-all duration-300 ${
                 pathname === "/login"
                   ? "text-violet-500"
@@ -84,7 +84,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden lg:block">
             <Link
-              href="/register"
+              href="/signup"
               className="rounded-2xl bg-white px-6 py-3 font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
             >
               Get Started
@@ -107,7 +107,7 @@ export default function Navbar() {
         {/* Mobile Menu */}
         <div
           className={`overflow-hidden transition-all duration-300 lg:hidden ${
-            isOpen ? "max-h-[500px] pb-5" : "max-h-0"
+            isOpen ? "max-h-125 pb-5" : "max-h-0"
           }`}
         >
           <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg">
@@ -132,7 +132,7 @@ export default function Navbar() {
 
             <div className="border-t border-white/10 pt-5">
               <Link
-                href="/login"
+                href="/signin"
                 onClick={() => setIsOpen(false)}
                 className={`block transition-all duration-300 ${
                   pathname === "/login"
@@ -145,7 +145,7 @@ export default function Navbar() {
             </div>
 
             <Link
-              href="/register"
+              href="/signup"
               onClick={() => setIsOpen(false)}
               className="block rounded-xl bg-white py-3 text-center font-semibold text-black transition-all duration-300 hover:opacity-90"
             >
