@@ -6,6 +6,8 @@ import { useState } from "react";
 import { RiBriefcase4Fill } from "react-icons/ri";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
+import { signOut, useSession } from "@/lib/auth-client";
+import { Avatar, Button } from "@heroui/react";
 
 const navLinks = [
   {
@@ -23,17 +25,25 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const { data: session, isPending, } = useSession();
+
+  const user = session?.user;
+  const handleLogout = async () => {
+    await signOut()
+  }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0B0B14]/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/10
+     bg-[#0B0B14]/80 backdrop-blur-xl">
       <div className="mx-auto container px-4 sm:px-6 lg:px-8">
-        <nav className="flex h-20 items-center justify-between">
+        <nav className="flex py-2 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex size-11 items-center justify-center rounded-xl bg-linear-to-r from-violet-600 to-purple-500 shadow-lg">
-              <RiBriefcase4Fill className="text-2xl text-white" />
+            <div className="flex size-8 md:size-10 items-center justify-center rounded-xl bg-linear-to-r from-violet-600 to-purple-500 shadow-lg">
+              <RiBriefcase4Fill className="text-xl md:text-2xl text-white" />
             </div>
 
             <div>
@@ -44,7 +54,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden items-center gap-8 rounded-2xl border border-white/10 bg-white/5 px-8 py-4 backdrop-blur-lg lg:flex">
+          <div className="hidden items-center gap-8 rounded-2xl border border-white/10 bg-white/5 px-8 py-2 backdrop-blur-lg lg:flex">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
 
@@ -52,11 +62,10 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`relative text-sm font-medium transition-all duration-300 ${
-                    isActive
-                      ? "text-violet-500"
-                      : "text-gray-300 hover:text-white"
-                  }`}
+                  className={`relative text-sm font-medium transition-all duration-300 ${isActive
+                    ? "text-violet-500"
+                    : "text-gray-300 hover:text-white"
+                    }`}
                 >
                   {link.name}
 
@@ -69,26 +78,53 @@ export default function Navbar() {
 
             <div className="h-5 w-px bg-white/10" />
 
-            <Link
-              href="/signin"
-              className={`text-sm font-medium transition-all duration-300 ${
-                pathname === "/login"
-                  ? "text-violet-500"
-                  : "text-gray-300 hover:text-white"
-              }`}
-            >
-              Sign In
-            </Link>
+            {
+              isPending ? "loading..." :
+                user ?
+
+                  <Link
+                    href="/signin">
+                    <Button onClick={handleLogout}
+                      variant="danger"
+                      className={'rounded-xl'}>
+                      LogOut
+                    </Button>
+                  </Link>
+
+                  : <Link
+                    href="/signin"
+                    className={`text-sm font-medium transition-all duration-300 ${pathname === "/signin"
+                      ? "text-violet-500"
+                      : "text-gray-300 hover:text-white"
+                      }`}
+                  >
+                    Sign In
+                  </Link>
+
+            }
           </div>
 
           {/* Desktop CTA */}
           <div className="hidden lg:block">
-            <Link
-              href="/signup"
-              className="rounded-2xl bg-white px-6 py-3 font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-            >
-              Get Started
-            </Link>
+            {
+              isPending ? "loading..." :
+                user ?
+
+
+                  <Avatar>
+                    <Avatar.Image
+                      alt={user?.name || "Guest"}
+                      src={user?.image} />
+                    <Avatar.Fallback className="text-2xl flex items-center justify-center uppercase rounded-full">{user?.name.charAt(0)}</Avatar.Fallback>
+                  </Avatar>
+
+                  : <Link
+                    href="/signup"
+                    className="rounded-2xl bg-white px-6 py-3 font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                  >
+                    Get Started
+                  </Link>
+            }
           </div>
 
           {/* Mobile Menu Button */}
@@ -97,18 +133,17 @@ export default function Navbar() {
             className="text-white lg:hidden"
           >
             {isOpen ? (
-              <IoClose size={30} />
+              <IoClose size={25} />
             ) : (
-              <HiMenuAlt3 size={30} />
+              <HiMenuAlt3 size={25} />
             )}
           </button>
         </nav>
 
         {/* Mobile Menu */}
         <div
-          className={`overflow-hidden transition-all duration-300 lg:hidden ${
-            isOpen ? "max-h-125 pb-5" : "max-h-0"
-          }`}
+          className={`overflow-hidden transition-all duration-300 lg:hidden ${isOpen ? "max-h-125 pb-5" : "max-h-0"
+            }`}
         >
           <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg">
             {navLinks.map((link) => {
@@ -119,11 +154,10 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block transition-all duration-300 ${
-                    isActive
-                      ? "font-medium text-violet-500"
-                      : "text-gray-300 hover:text-white"
-                  }`}
+                  className={`block transition-all duration-300 ${isActive
+                    ? "font-medium text-violet-500"
+                    : "text-gray-300 hover:text-white"
+                    }`}
                 >
                   {link.name}
                 </Link>
@@ -131,17 +165,26 @@ export default function Navbar() {
             })}
 
             <div className="border-t border-white/10 pt-5">
-              <Link
-                href="/signin"
-                onClick={() => setIsOpen(false)}
-                className={`block transition-all duration-300 ${
-                  pathname === "/login"
-                    ? "font-medium text-violet-500"
-                    : "text-gray-300 hover:text-white"
-                }`}
-              >
-                Sign In
-              </Link>
+              {isPending ? "loading..." :
+                user ?
+                  <Link
+                    href="/signin">
+                    <Button onClick={handleLogout}
+                      variant="danger"
+                      className={'rounded-xl w-full'}>
+                      LogOut
+                    </Button>
+                  </Link>
+                  : <Link
+                    href="/signin"
+                    onClick={() => setIsOpen(false)}
+                    className={`block transition-all duration-300 ${pathname === "/signin"
+                      ? "font-medium text-violet-500"
+                      : "text-gray-300 hover:text-white"
+                      }`}
+                  >
+                    Sign In
+                  </Link>}
             </div>
 
             <Link
