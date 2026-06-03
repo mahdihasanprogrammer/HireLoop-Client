@@ -1,3 +1,5 @@
+"use client"
+import { motion } from "motion/react";
 import {
   HiOutlineBriefcase,
   HiOutlineBuildingOffice2,
@@ -30,18 +32,24 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <section className="relative overflow-hidden bg-black py-15 md:py-24 lg:py-32">
+    <motion.section
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+
+      className="relative overflow-hidden bg-black py-15 md:py-24 lg:py-32">
       {/* Globe */}
       <div
         className="absolute inset-0 -top-25 bg-size-[90%]  sm:-top-80 md:-top-90  md:bg-size-[90%] lg:-top-110 bg-top bg-no-repeat sm:bg-size-[100%] lg:bg-size-[70%]"
         style={{
           backgroundImage: "url('/images/globe.png')",
-         
+
         }}
       />
 
       {/* Blue Glow */}
-      <div className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-blue-600/30 blur-[150px]" />
+      <div className="absolute top-0 left-1/2 h-125 w-200 -translate-x-1/2 rounded-full bg-blue-600/30 blur-[150px]" />
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/20" />
@@ -64,12 +72,16 @@ export default function StatsSection() {
             const Icon = item.icon;
 
             return (
-              <div
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                viewport={{ once: true }}
                 key={index}
                 className="
                   rounded-2xl
                   border border-white/10
-                  bg-gradient-to-b
+                  bg-linear-to-b
                   from-[#0f172a]/95
                   via-[#070b15]/95
                   to-black
@@ -91,11 +103,11 @@ export default function StatsSection() {
                 <p className="mt-3 text-base text-gray-300">
                   {item.label}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

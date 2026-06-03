@@ -9,6 +9,8 @@ import {
   Form,
   Input,
   Label,
+  Radio,
+  RadioGroup,
   TextField,
 } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
@@ -36,6 +38,7 @@ const SignUpPage = () => {
       const email = e.target.email.value;
       const password = e.target.password.value;
       const confirmPassword = e.target.confirmPassword.value;
+      const role = e.target.role.value;
 
 
 
@@ -51,6 +54,7 @@ const SignUpPage = () => {
         image,
         email,
         password,
+        role,
       })
 
       if (error) {
@@ -69,12 +73,12 @@ const SignUpPage = () => {
       }
     }
     catch (err) {
-      toast.error(err.message ||"Something went wrong", {
+      toast.error(err.message || "Something went wrong", {
         icon: <MdErrorOutline className="text-red-500" size={20} />,
         className: 'error-toast'
       });
     }
-    finally{
+    finally {
       setLoading(false)
     }
 
@@ -140,7 +144,7 @@ const SignUpPage = () => {
             <FieldError />
           </TextField>
 
-          <TextField isRequired name="image" type="url">
+          <TextField  name="image" type="url">
             <Label className="mb-1">Photo URL</Label>
             <Input placeholder="https://your-image-url.com" classNames={{ inputWrapper: "bg-white/5 border border-white/10 hover:border-cyan-500 transition-colors" }} />
             <FieldError />
@@ -185,9 +189,34 @@ const SignUpPage = () => {
             {error && <p className="text-danger text-sm">{error}</p>}
           </TextField>
 
-          <Button 
-          type="submit"
-           className="w-full h-11 text-base font-semibold text-white bg-linear-to-r from-purple-500 via-blue-500 to-indigo-500 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-cyan-500/20">
+          <div className="flex flex-col gap-4">
+            <Label>Subscription plan</Label>
+            <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
+              <Radio value="seeker">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label>Jobs seeker</Label>
+                
+                </Radio.Content>
+              </Radio>
+              
+              <Radio value="recruiter">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label>Recruiter</Label>
+                
+                </Radio.Content>
+              </Radio>
+            </RadioGroup>
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full h-11 text-base font-semibold text-white bg-linear-to-r from-purple-500 via-blue-500 to-indigo-500 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-cyan-500/20">
             {loading ? 'Creating Account...' : "Create Account →"}
           </Button>
         </Form>

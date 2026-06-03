@@ -31,6 +31,7 @@ export default function Navbar() {
   const { data: session, isPending, } = useSession();
 
   const user = session?.user;
+  console.log('user', user)
   const handleLogout = async () => {
     await signOut()
   }
@@ -81,16 +82,12 @@ export default function Navbar() {
             {
               isPending ? "loading..." :
                 user ?
-
-                  <Link
-                    href="/signin">
-                    <Button onClick={handleLogout}
-                      variant="danger"
-                      className={'rounded-xl'}>
-                      LogOut
+              
+                    <Button onClick={handleLogout} 
+                      className='rounded-xl bg-transparent  hover:text-red-500  transition-all duration-300'>
+                      Logout
                     </Button>
-                  </Link>
-
+                 
                   : <Link
                     href="/signin"
                     className={`text-sm font-medium transition-all duration-300 ${pathname === "/signin"
@@ -102,6 +99,7 @@ export default function Navbar() {
                   </Link>
 
             }
+            
           </div>
 
           {/* Desktop CTA */}
@@ -115,7 +113,7 @@ export default function Navbar() {
                     <Avatar.Image
                       alt={user?.name || "Guest"}
                       src={user?.image} />
-                    <Avatar.Fallback className="text-2xl flex items-center justify-center uppercase rounded-full">{user?.name.charAt(0)}</Avatar.Fallback>
+                    <Avatar.Fallback className="text-2xl flex items-center justify-center uppercase rounded-full">{user?.name?.charAt(0)}</Avatar.Fallback>
                   </Avatar>
 
                   : <Link
@@ -198,5 +196,5 @@ export default function Navbar() {
         </div>
       </div>
     </header>
-  );
+  )
 }
