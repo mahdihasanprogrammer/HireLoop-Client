@@ -40,7 +40,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-white/10
      bg-[#0B0B14]/80 backdrop-blur-xl">
       <div className="mx-auto container px-4 sm:px-6 lg:px-8">
-        <nav className="flex py-2 items-center justify-between">
+        <nav className="flex py-3 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <div className="flex size-8 md:size-10 items-center justify-center rounded-xl bg-linear-to-r from-violet-600 to-purple-500 shadow-lg">
@@ -83,10 +83,10 @@ export default function Navbar() {
               isPending ? "loading..." :
                 user ?
               
-                    <Button onClick={handleLogout} 
+                    <div onClick={handleLogout} 
                       className='rounded-xl bg-transparent  hover:text-red-500  transition-all duration-300'>
-                      Logout
-                    </Button>
+                      Sign Out
+                    </div>
                  
                   : <Link
                     href="/signin"
@@ -168,9 +168,9 @@ export default function Navbar() {
                   <Link
                     href="/signin">
                     <Button onClick={handleLogout}
-                      variant="danger"
-                      className={'rounded-xl w-full'}>
-                      LogOut
+                      
+                      className={'rounded-xl w-full bg-transparent border border-red-400 hover:text-red-400 transition-all duration-300'}>
+                     Sign Out
                     </Button>
                   </Link>
                   : <Link

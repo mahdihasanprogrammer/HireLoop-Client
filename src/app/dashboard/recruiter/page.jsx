@@ -22,8 +22,8 @@ const RecruiterDashboardHomePage = () => {
 
     return (
         <div className="p-4">
-            <h2 className="text-3xl font-medium">
-                Welcome back {user?.name}
+            <h2 className="text-3xl font-medium mb-6">
+                Welcome back, {user?.name}
             </h2>
 
             <DashboardStats stats= {recruiterStats} />
