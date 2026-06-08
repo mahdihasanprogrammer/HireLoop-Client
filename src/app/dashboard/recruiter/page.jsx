@@ -7,7 +7,7 @@ import { Briefcase, CircleCheck, Persons, Thunderbolt } from "@gravity-ui/icons"
 const RecruiterDashboardHomePage = () => {
     const { data: session, isPending } = useSession();
     const user = session?.user;
-    console.log('user', user)
+   
 
     if (isPending) {
         return <div> loading...</div>

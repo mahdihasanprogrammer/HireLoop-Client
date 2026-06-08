@@ -31,7 +31,7 @@ export default function Navbar() {
   const { data: session, isPending, } = useSession();
 
   const user = session?.user;
-  console.log('user', user)
+
   const handleLogout = async () => {
     await signOut()
   }
@@ -84,7 +84,7 @@ export default function Navbar() {
                 user ?
               
                     <div onClick={handleLogout} 
-                      className='rounded-xl bg-transparent  hover:text-red-500  transition-all duration-300'>
+                      className='rounded-xl bg-transparent  hover:text-red-500  transition-all duration-300 text-sm text-gray-300'>
                       Sign Out
                     </div>
                  
@@ -169,7 +169,7 @@ export default function Navbar() {
                     href="/signin">
                     <Button onClick={handleLogout}
                       
-                      className={'rounded-xl w-full bg-transparent border border-red-400 hover:text-red-400 transition-all duration-300'}>
+                      className={'rounded-xl w-full bg-transparent border border-red-400 hover:text-red-400 transition-all duration-300 text-sm text-gray-300'}>
                      Sign Out
                     </Button>
                   </Link>
