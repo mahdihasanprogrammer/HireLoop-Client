@@ -1,3 +1,4 @@
+import { serverFetch } from "../core/server";
 
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
@@ -7,3 +8,10 @@
     return res.json();
 
 }
+
+export const getAllJobs = async(search, category, jobType, isRemote)=>{
+    console.log({search, category, jobType, isRemote})
+    return serverFetch(`/api/filtering-jobs?search=${search}&category=${category}&jobType=${jobType}&isRemote=${isRemote}`)
+}
+
+
