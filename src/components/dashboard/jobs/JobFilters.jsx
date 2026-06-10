@@ -1,7 +1,6 @@
-// components/dashboard/jobs/JobFilters.jsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
@@ -22,16 +21,18 @@ export default function JobFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Read current URL states so fields do not reset on page change
+  // Read current URL states safely so fields do not reset on page change
   const [search, setSearch] = useState(searchParams.get("search") || "");
-  const [category, setCategory] = useState(
-    searchParams.get("category") || "all"
-  );
+  const [category, setCategory] = useState(searchParams.get("category") || "all");
   const [jobType, setJobType] = useState(searchParams.get("jobType") || "all");
-  const [isRemote, setIsRemote] = useState(
-    searchParams.get("isRemote") || "all"
-  );
+  
+  // Explicitly check for null or empty string to ensure 'all' is selected initially
+  const [isRemote, setIsRemote] = useState(() => {
+    const param = searchParams.get("isRemote");
+    return param !== null && param !== "" ? param : "all";
+  });
 
+  
   // Categories from your PostJobForm dropdown list
   const categoryOptions = [
     { id: "all", label: "All Categories" },
@@ -60,24 +61,17 @@ export default function JobFilters() {
   const handleApplyFilters = () => {
     const params = new URLSearchParams();
 
-    if (search) params.set("search", search);
+    if (search.trim()) params.set("search", search);
     if (category !== "all") params.set("category", category);
     if (jobType !== "all") params.set("jobType", jobType);
     if (isRemote !== "all") params.set("isRemote", isRemote);
 
     // 1. Send active parameters to URL to execute the data filter fetch
     router.push(`?${params.toString()}`);
-
-    // 2. Instantly reset all client states back to default values
-    setSearch("");
-    setCategory("all");
-    setJobType("all");
-    setIsRemote("all");
   };
 
   return (
     <div className="w-full bg-[#121212] border border-neutral-800 rounded-3xl p-5 text-white">
-      {/* Grid container placing everything on one single line on large screens */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
         {/* 1. Search Bar */}
         <div className="w-full">
@@ -97,10 +91,11 @@ export default function JobFilters() {
           </TextField>
         </div>
 
-        {/* 2. Category Filter (Dynamically Mapped) */}
+        {/* 2. Category Filter */}
         <Select
+        
           defaultValue={category}
-          onChange={(value) => setCategory(value)}
+          onChange={(key) => setCategory(key)}
         >
           <Label className="text-xs font-medium text-neutral-400 mb-1.5 block">
             Category
@@ -120,6 +115,7 @@ export default function JobFilters() {
                 <ListBox.Item
                   key={opt.id}
                   id={opt.id}
+                  textValue={opt.label}
                   className="p-2 text-sm text-neutral-300 hover:bg-neutral-800 rounded-lg cursor-pointer"
                 >
                   <Label>{opt.label}</Label>
@@ -129,10 +125,10 @@ export default function JobFilters() {
           </Select.Popover>
         </Select>
 
-        {/* 3. Job Type Filter (Dynamically Mapped) */}
+        {/* 3. Job Type Filter */}
         <Select
           defaultValue={jobType}
-          onChange={(value) => setJobType(value)}
+          onChange={(key) => setJobType(key)}
         >
           <Label className="text-xs font-medium text-neutral-400 mb-1.5 block">
             Job Type
@@ -152,6 +148,7 @@ export default function JobFilters() {
                 <ListBox.Item
                   key={opt.id}
                   id={opt.id}
+                  textValue={opt.label}
                   className="p-2 text-sm text-neutral-300 hover:bg-neutral-800 rounded-lg cursor-pointer"
                 >
                   <Label>{opt.label}</Label>
@@ -161,10 +158,10 @@ export default function JobFilters() {
           </Select.Popover>
         </Select>
 
-        {/* 4. Work Mode Filter (Dynamically Mapped) */}
+        {/* 4. Work Mode Filter */}
         <Select
           defaultValue={isRemote}
-          onChange={(value) => setIsRemote(value)}
+          onChange={(key) => setIsRemote(key)}
         >
           <Label className="text-xs font-medium text-neutral-400 mb-1.5 block">
             Work Mode
@@ -184,6 +181,7 @@ export default function JobFilters() {
                 <ListBox.Item
                   key={opt.id}
                   id={opt.id}
+                  textValue={opt.label}
                   className="p-2 text-sm text-neutral-300 hover:bg-neutral-800 rounded-lg cursor-pointer"
                 >
                   <Label>{opt.label}</Label>

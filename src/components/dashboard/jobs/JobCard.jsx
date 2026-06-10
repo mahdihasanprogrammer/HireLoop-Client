@@ -1,6 +1,8 @@
 import React from "react";
-import { Card, Avatar, Button } from "@heroui/react";
+import { Card, Avatar } from "@heroui/react";
 import { HiOutlineLocationMarker, HiOutlineBriefcase, HiOutlineCurrencyDollar } from "react-icons/hi";
+import Link from "next/link";
+
 
 export default function JobCard({ job }) {
   // 1. Dynamic database currency formatting logic
@@ -12,7 +14,7 @@ export default function JobCard({ job }) {
     const min = minSalaryNum >= 1000 ? `${minSalaryNum / 1000}k` : minSalaryNum;
     const max = maxSalaryNum >= 1000 ? `${maxSalaryNum / 1000}k` : maxSalaryNum;
     const symbol = job?.currency === "USD" ? "$" : job?.currency === "EUR" ? "€" : "$";
-    return `${symbol}${min}–${symbol}${max}/year`; 
+    return `${symbol}${min}–${symbol}${max}/month`; 
   };
 
   return (
@@ -91,13 +93,13 @@ export default function JobCard({ job }) {
 
       {/* 3. Card Footer using correct compound elements */}
       <Card.Footer className="p-0 bg-transparent justify-start mt-1">
-        <Button 
+        <Link href={`/jobs/${job._id}`} 
           variant="light" 
           className="text-white font-medium p-0 hover:bg-transparent min-w-0 flex items-center gap-2 group text-sm"
         >
           Apply Now 
           <span className="transition-transform group-hover:translate-x-1">→</span>
-        </Button>
+        </Link>
       </Card.Footer>
 
     </Card>
