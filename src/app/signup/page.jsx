@@ -21,12 +21,14 @@ import { signUp } from "@/lib/auth-client";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdErrorOutline } from "react-icons/md";
 import { router } from "better-auth/api";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SignUpPage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect');
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -225,7 +227,7 @@ const SignUpPage = () => {
 
         <p className="text-sm text-default-500 text-center">
           Already have an account?
-          <Link href="/signin" className="ml-2 font-bold text-cyan-400 hover:text-cyan-300 transition-colors text-base underline underline-offset-2">
+          <Link href={`/signin?redirect=${redirectTo}`} className="ml-2 font-bold text-cyan-400 hover:text-cyan-300 transition-colors text-base underline underline-offset-2">
             Sign In
           </Link>
         </p>

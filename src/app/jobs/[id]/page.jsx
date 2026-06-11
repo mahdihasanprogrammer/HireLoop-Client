@@ -19,7 +19,7 @@ const JobDetailPage = async ({ params }) => {
         return (
             <div className="flex flex-col items-center justify-center min-h-[50vh] bg-[#121212] text-neutral-400">
                 <div className="w-10 h-10 rounded-full border-2 border-neutral-800 border-t-[#e0aaff] animate-spin mb-4"></div>
-                <p className="font-medium text-sm">Fetching job loop details...</p>
+                <p className="font-medium text-sm">Fetching job details...</p>
             </div>
         );
     }

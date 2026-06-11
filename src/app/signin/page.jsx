@@ -18,12 +18,21 @@ import { toast } from "sonner";
 import { signIn } from "@/lib/auth-client";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdErrorOutline } from "react-icons/md";
+import { useRouter, useSearchParams } from 'next/navigation'
 
 
 
 const SignInPage = () => {
 
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get('redirect')|| "/";
+    console.log('redirectTo', redirectTo)
+
+
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
+
     const handleSignIn = async (e) => {
         e.preventDefault();
 
@@ -35,7 +44,7 @@ const SignInPage = () => {
             const { data, error } = await signIn.email({
                 email,
                 password,
-                callbackURL: '/'
+                
             })
 
             if (error) {
@@ -51,6 +60,7 @@ const SignInPage = () => {
                     className: 'success-toast '
                 });
 
+                router.push(redirectTo)
             }
         }
         catch (err) {
@@ -148,7 +158,7 @@ const SignInPage = () => {
 
                 <p className="text-sm text-default-500 text-center">
                     Dont have an account?
-                    <Link href="/signup" className="ml-2 font-bold text-cyan-400 hover:text-cyan-300 transition-colors text-base underline underline-offset-2">
+                    <Link href={`/signup?redirect=${redirectTo}`} className="ml-2 font-bold text-cyan-400 hover:text-cyan-300 transition-colors text-base underline underline-offset-2">
                         Sign Up
                     </Link>
                 </p>
