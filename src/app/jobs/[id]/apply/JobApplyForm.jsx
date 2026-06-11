@@ -18,6 +18,7 @@ import { RiResetRightFill } from "react-icons/ri";
 import { toast } from "sonner";
 import { submitApplication } from "@/lib/actions/applications";
 
+
 const JobApplyForm = ({ job, applicant }) => {
     console.log(job, 'job apply')
 
@@ -39,16 +40,16 @@ const JobApplyForm = ({ job, applicant }) => {
         };
 
         const result = await submitApplication(submissionPayload);
+        console.log('result', result)
         if (result.insertedId) {
-            toast.success("Application successful 🚀", {
+            toast.success("Application successful 🚀" , {
                 icon: <FaCheckCircle className="text-cyan-400" size={20} />,
                 className: 'success-toast '
-            });
+            })
 
-           
         }
 
-        console.log('submissionPayload', submissionPayload)
+
     };
 
     return (
