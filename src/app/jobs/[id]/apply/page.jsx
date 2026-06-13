@@ -7,6 +7,7 @@ import JobApplyForm from './JobApplyForm';
 import { getApplicationsByApplicantId } from '@/lib/api/applications';
 import Link from 'next/link';
 import { Chip, Button } from '@heroui/react';
+import { getPlanById } from '@/lib/api/plans';
 
 const ApplyPage = async ({ params }) => {
     const { id } = await params;
@@ -46,10 +47,8 @@ const ApplyPage = async ({ params }) => {
     }
 
     const applications = await getApplicationsByApplicantId(user?.id);
-    const plan = {
-        name: 'Free', 
-        maxApplicationPerMonth: 3
-    };
+    const plan = await getPlanById(user?.plan)
+   
 
     
     const usageReachedLimit = applications.length >= plan.maxApplicationPerMonth;

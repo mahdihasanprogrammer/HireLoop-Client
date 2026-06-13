@@ -20,7 +20,6 @@ import { toast } from "sonner";
 import { signUp } from "@/lib/auth-client";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdErrorOutline } from "react-icons/md";
-import { router } from "better-auth/api";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const SignUpPage = () => {
@@ -50,13 +49,14 @@ const SignUpPage = () => {
       }
 
       setError("");
-
+      const plan = role ==='seeker' ? "seeker_free" : 'recruiter_free'
       const { data, error } = await signUp.email({
         name,
         image,
         email,
         password,
         role,
+        plan,
       })
 
       if (error) {
@@ -192,7 +192,7 @@ const SignUpPage = () => {
           </TextField>
 
           <div className="flex flex-col gap-4">
-            <Label>Subscription plan</Label>
+            <Label>Role</Label>
             <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
               <Radio value="seeker">
                 <Radio.Control>

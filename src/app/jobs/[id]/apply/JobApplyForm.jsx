@@ -17,11 +17,12 @@ import {
 import { RiResetRightFill } from "react-icons/ri";
 import { toast } from "sonner";
 import { submitApplication } from "@/lib/actions/applications";
+import { useRouter } from "next/navigation";
 
 
 const JobApplyForm = ({ job, applicant }) => {
-    console.log(job, 'job apply')
-
+    
+const router = useRouter();
     const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -46,6 +47,7 @@ const JobApplyForm = ({ job, applicant }) => {
                 icon: <FaCheckCircle className="text-cyan-400" size={20} />,
                 className: 'success-toast '
             })
+            router.refresh()
 
         }
 

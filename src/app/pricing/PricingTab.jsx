@@ -11,6 +11,7 @@ import {
 const jobSeekerPlans = [
   {
     name: "Free",
+    id:'seeker_free',
     price: "$0",
     duration: "/forever",
     featured: false,
@@ -20,9 +21,11 @@ const jobSeekerPlans = [
       "Basic profile",
       "Email alerts",
     ],
+    btnText: 'Get Started',
   },
   {
     name: "Pro",
+    id: "seeker_pro",
     price: "$19",
     duration: "/month",
     featured: true,
@@ -32,9 +35,11 @@ const jobSeekerPlans = [
       "Application tracking",
       "Salary insights",
     ],
+    btnText: 'Upgrade to Pro',
   },
   {
     name: "Premium",
+    id: "seeker_premium",
     price: "$39",
     duration: "/month",
     featured: false,
@@ -45,12 +50,14 @@ const jobSeekerPlans = [
       "Early access to new jobs",
       "Priority support",
     ],
+    btnText: 'Get Premium',
   },
 ];
 
 const recruiterPlans = [
   {
     name: "Free",
+    id:"recruiter_free",
     price: "$0",
     duration: "/forever",
     featured: false,
@@ -60,9 +67,11 @@ const recruiterPlans = [
       "Standard listing visibility",
       "Great for a company's first year of hiring",
     ],
+    btnText: 'Get Started',
   },
   {
     name: "Growth",
+    id: 'recruiter_growth',
     price: "$49",
     duration: "/month",
     featured: true,
@@ -72,9 +81,11 @@ const recruiterPlans = [
       "Basic analytics",
       "Email support",
     ],
+    btnText: 'Upgrade to Pro',
   },
   {
     name: "Enterprise",
+    id: 'recruiter_enterprise',
     price: "$149",
     duration: "/month",
     featured: false,
@@ -86,17 +97,17 @@ const recruiterPlans = [
       "Custom branding",
       "Priority support",
     ],
+    btnText: 'Get Premium',
   },
 ];
 
 const PricingCard = ({ plan }) => {
   return (
     <Card
-      className={`h-full border backdrop-blur-md transition-all duration-500 ease-out hover:-translate-y-3 hover:shadow-2xl ${
-        plan.featured
-          ? "border-orange-500/50 bg-zinc-900/80 shadow-orange-500/10 scale-[1.03] ring-1 ring-orange-500/30"
-          : "border-zinc-800 bg-zinc-950/40 hover:border-zinc-700"
-      }`}
+      className={`h-full border backdrop-blur-md transition-all duration-500 ease-out hover:-translate-y-3 hover:shadow-2xl ${plan.featured
+        ? "border-orange-500/50 bg-zinc-900/80 shadow-orange-500/10 scale-[1.03] ring-1 ring-orange-500/30"
+        : "border-zinc-800 bg-zinc-950/40 hover:border-zinc-700"
+        }`}
     >
       <Card.Header className="flex flex-col items-start gap-4 p-6">
         <div className="flex justify-between items-center w-full">
@@ -105,8 +116,8 @@ const PricingCard = ({ plan }) => {
           </h3>
 
           {plan.featured && (
-            <Chip 
-              color="primary" 
+            <Chip
+              color="primary"
               className="bg-linear-to-r from-orange-500 to-amber-700 text-white font-semibold border-none shadow-sm text-xs px-3"
             >
               Most Popular
@@ -136,19 +147,22 @@ const PricingCard = ({ plan }) => {
         </ul>
       </Card.Content>
 
-      <Card.Footer className="p-6 pt-2">
-        <Button
-          fullWidth
-          color={plan.featured ? "primary" : "default"}
-          variant={plan.featured ? "solid" : "bordered"}
-          className={`font-semibold tracking-wide transition-all duration-300 rounded-full py-6 ${
-            plan.featured
-              ? "bg-linear-to-r from-orange-500 to-amber-600 text-white hover:opacity-90 shadow-lg shadow-orange-500/20"
-              : "border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white"
-          }`}
-        >
-          Choose Plan
-        </Button>
+      <Card.Footer className="p-6 pt-2 w-full">
+        <form action="/api/checkout_sessions" method="POST" className="w-full">
+          <input type="hidden" name="plan_id" value={plan?.id} />
+          <section className="w-full">
+            <button
+              type="submit"
+              role="link"
+              className={`w-full cursor-pointer font-semibold tracking-wide transition-all duration-300 rounded-full py-3 text-center ${plan.featured
+                ? "bg-linear-to-r from-orange-500 to-amber-600 text-white hover:opacity-90 shadow-lg shadow-orange-500/20"
+                : "border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                }`}
+            >
+              {plan.btnText}
+            </button>
+          </section>
+        </form>
       </Card.Footer>
     </Card>
   );
@@ -166,11 +180,10 @@ const PricingTab = () => {
         <div className="inline-flex bg-zinc-950/60 p-1.5 gap-1 md:gap-1.5 rounded-full border border-zinc-800 backdrop-blur-xl shadow-inner">
           <button
             onClick={() => setSelected("jobseekers")}
-            className={`flex items-center gap-1 md:gap-2.5 px-4 py-2 md:px-6  md:py-3 rounded-full font-semibold text-sm transition-all duration-300 ${
-              selected === "jobseekers"
-                ? "bg-linear-to-r from-zinc-800 to-zinc-900 text-white shadow-xl border border-zinc-700/50 scale-[1.01]"
-                : "text-zinc-400 hover:text-zinc-200"
-            }`}
+            className={`flex items-center gap-1 md:gap-2.5 px-4 py-2 md:px-6  md:py-3 rounded-full font-semibold text-sm transition-all duration-300 ${selected === "jobseekers"
+              ? "bg-linear-to-r from-zinc-800 to-zinc-900 text-white shadow-xl border border-zinc-700/50 scale-[1.01]"
+              : "text-zinc-400 hover:text-zinc-200"
+              }`}
           >
             <FaUserTie className={selected === "jobseekers" ? "text-orange-400" : "text-zinc-400"} />
             For Job Seekers
@@ -178,11 +191,10 @@ const PricingTab = () => {
 
           <button
             onClick={() => setSelected("recruiters")}
-            className={`flex items-center gap-1 md:gap-2.5 px-4 py-2 md:px-6  md:py-3 rounded-full font-semibold text-sm transition-all duration-300 ${
-              selected === "recruiters"
-                ? "bg-linear-to-r from-zinc-800 to-zinc-900 text-white shadow-xl border border-zinc-700/50 scale-[1.01]"
-                : "text-zinc-400 hover:text-zinc-200"
-            }`}
+            className={`flex items-center gap-1 md:gap-2.5 px-4 py-2 md:px-6  md:py-3 rounded-full font-semibold text-sm transition-all duration-300 ${selected === "recruiters"
+              ? "bg-linear-to-r from-zinc-800 to-zinc-900 text-white shadow-xl border border-zinc-700/50 scale-[1.01]"
+              : "text-zinc-400 hover:text-zinc-200"
+              }`}
           >
             <FaBriefcase className={selected === "recruiters" ? "text-orange-400" : "text-zinc-400"} />
             For Recruiters
