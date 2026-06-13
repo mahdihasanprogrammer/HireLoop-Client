@@ -9,28 +9,44 @@ import { IoClose } from "react-icons/io5";
 import { signOut, useSession } from "@/lib/auth-client";
 import { Avatar, Button } from "@heroui/react";
 
-const navLinks = [
-  {
-    name: "Browse Jobs",
-    href: "/jobs",
-  },
-  {
-    name: "Companies",
-    href: "/companies",
-  },
-  {
-    name: "Pricing",
-    href: "/pricing",
-  },
-];
+ 
 
+ 
 export default function Navbar() {
+ const navLinks = [
+    {
+      name: "Browse Jobs",
+      href: "/jobs",
+    },
+    {
+      name: "Companies",
+      href: "/companies",
+    },
+    {
+      name: "Pricing",
+      href: "/pricing",
+    },
+  ];
 
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, isPending, } = useSession();
 
   const user = session?.user;
+  const dashboardLinks = {
+    seeker: '/dashboard/seeker',
+    recruiter: '/dashboard/recruiter'
+  }
+
+  if (user?.email) {
+  navLinks.push(
+    {
+      name: 'Dashboard',
+      href: dashboardLinks[user?.role || '/dashboard/seeker']
+    }
+  )
+}
+
 
   const handleLogout = async () => {
     await signOut()
@@ -82,12 +98,12 @@ export default function Navbar() {
             {
               isPending ? "loading..." :
                 user ?
-              
-                    <div onClick={handleLogout} 
-                      className='rounded-xl bg-transparent  hover:text-red-500  transition-all duration-300 text-sm text-gray-300'>
-                      Sign Out
-                    </div>
-                 
+
+                  <div onClick={handleLogout}
+                    className='rounded-xl bg-transparent  hover:text-red-500  transition-all duration-300 text-sm text-gray-300'>
+                    Sign Out
+                  </div>
+
                   : <Link
                     href="/signin"
                     className={`text-sm font-medium transition-all duration-300 ${pathname === "/signin"
@@ -99,7 +115,7 @@ export default function Navbar() {
                   </Link>
 
             }
-            
+
           </div>
 
           {/* Desktop CTA */}
@@ -168,9 +184,9 @@ export default function Navbar() {
                   <Link
                     href="/signin">
                     <Button onClick={handleLogout}
-                      
+
                       className={'rounded-xl w-full bg-transparent border border-red-400 hover:text-red-400 transition-all duration-300 text-sm text-gray-300'}>
-                     Sign Out
+                      Sign Out
                     </Button>
                   </Link>
                   : <Link

@@ -34,6 +34,7 @@ const router = useRouter();
             ...data,
             jobId: job?._id,
             companyName: job?.companyName,
+            companyLogo:job?.companyLogo,
             jobTitle: job?.jobTitle,
             applicantId: applicant?.id,
             applicantName: applicant?.name,
