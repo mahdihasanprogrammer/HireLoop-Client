@@ -39,6 +39,7 @@ const router = useRouter();
             applicantId: applicant?.id,
             applicantName: applicant?.name,
             applicantEmail: applicant?.email,
+            status:'applied'
         };
 
         const result = await submitApplication(submissionPayload);

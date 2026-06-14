@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 
 const RecruiterLayout =async ({children}) => {
     const user =await getUserSession();
+    if(!user){
+        redirect('/signin')
+    }
     if(user?.role !== 'recruiter'){
         redirect('/unauthorized')
     }

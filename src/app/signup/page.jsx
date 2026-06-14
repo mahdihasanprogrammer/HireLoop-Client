@@ -50,13 +50,14 @@ const SignUpPage = () => {
 
       setError("");
       const plan = role ==='seeker' ? "seeker_free" : 'recruiter_free'
+
       const { data, error } = await signUp.email({
         name,
         image,
         email,
         password,
         role,
-        plan,
+        plan
       })
 
       if (error) {

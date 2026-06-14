@@ -1,6 +1,7 @@
 "use server"
 import { toast } from "sonner";
 import { serverMutation } from "../core/server";
+import { revalidatePath } from "next/cache";
 
 
 export const uploadLogoToImgBB = async (file) => {
@@ -30,6 +31,12 @@ export const uploadLogoToImgBB = async (file) => {
 
 
 export const createCompany =async (newCompanyData) =>{
-  return serverMutation('/api/my-companies', newCompanyData)
+  return serverMutation('/api/company', newCompanyData)
   
+}
+
+export const updateCompany = async(id, data)=>{
+ const result =serverMutation(`/api/companies/${id}`, data, 'PATCH')
+ revalidatePath('/dashboard/admin/companies')
+ return result
 }
